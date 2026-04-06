@@ -14,4 +14,11 @@
         <sonar.host.url>http://34.228.115.89:9000/</sonar.host.url>
     </properties>
 
+<distributionManagement>
+    <repository>
+        <id>nexus</id>
+        <url>http://54.90.203.107:8081/repository/maven-releases/</url>
+    </repository>
+</distributionManagement>
+
 </project>
