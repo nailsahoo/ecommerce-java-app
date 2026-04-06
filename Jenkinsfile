@@ -2,17 +2,18 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven'  // configure in Jenkins
+        maven 'Maven'
     }
 
     environment {
-        NEXUS_URL = 'http://54.90.203.107:8081'
-        NEXUS_REPO = 'maven-releases'
+        AWS_REGION = 'us-east-1'
+        ECR_REPO = '549969919865.dkr.ecr.us-east-1.amazonaws.com/ecommerce-app'
+        IMAGE_TAG = 'latest'
     }
 
     stages {
 
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
                 git 'https://github.com/nailsahoo/ecommerce-java-app.git'
             }
@@ -24,7 +25,7 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('Sonar') {
             steps {
                 withSonarQubeEnv('sonar-server') {
                     sh 'mvn sonar:sonar'
@@ -32,17 +33,24 @@ pipeline {
             }
         }
 
-        stage('Upload to Nexus') {
+        stage('Docker Build') {
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'nexus-creds',
-                    usernameVariable: 'USERNAME',
-                    passwordVariable: 'PASSWORD'
-                )]) {
-                    sh '''
-                    mvn deploy -Dnexus.username=$USERNAME -Dnexus.password=$PASSWORD
-                    '''
-                }
+                sh 'docker build -t $ECR_REPO:$IMAGE_TAG .'
+            }
+        }
+
+        stage('Login to ECR') {
+            steps {
+                sh '''
+                aws ecr get-login-password --region $AWS_REGION | \
+                docker login --username AWS --password-stdin $ECR_REPO
+                '''
+            }
+        }
+
+        stage('Push to ECR') {
+            steps {
+                sh 'docker push $ECR_REPO:$IMAGE_TAG'
             }
         }
     }
