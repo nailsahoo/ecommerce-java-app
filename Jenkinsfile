@@ -2,16 +2,17 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3'
+        maven 'Maven'  // configure in Jenkins
     }
 
     environment {
-        SONAR_TOKEN = credentials('sonar-token')
+        NEXUS_URL = 'http://54.90.203.107:8081'
+        NEXUS_REPO = 'maven-releases'
     }
 
     stages {
 
-        stage('Git Checkout') {
+        stage('Checkout Code') {
             steps {
                 git 'https://github.com/nailsahoo/ecommerce-java-app.git'
             }
@@ -25,13 +26,24 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh """
-                    mvn sonar:sonar \
-                    -Dsonar.login=$SONAR_TOKEN
-                    """
+                withSonarQubeEnv('sonar-server') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+
+        stage('Upload to Nexus') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'nexus-creds',
+                    usernameVariable: 'USERNAME',
+                    passwordVariable: 'PASSWORD'
+                )]) {
+                    sh '''
+                    mvn deploy -Dnexus.username=$USERNAME -Dnexus.password=$PASSWORD
+                    '''
                 }
             }
         }
     }
-}}
+}
