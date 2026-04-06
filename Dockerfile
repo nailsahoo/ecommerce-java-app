@@ -1,14 +1,9 @@
-# Use lightweight Java image
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 
-# Set working directory
 WORKDIR /app
 
-# Copy jar from target folder
-COPY target/*.jar app.jar
+COPY target/ecommerce-app-1.0.jar app.jar
 
-# Expose port (optional)
 EXPOSE 8080
 
-# Run application
 ENTRYPOINT ["java","-jar","app.jar"]
