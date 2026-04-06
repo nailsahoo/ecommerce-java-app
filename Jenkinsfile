@@ -5,6 +5,10 @@ pipeline {
         maven 'Maven3'
     }
 
+    environment {
+        SONAR_TOKEN = credentials('sonar-token')
+    }
+
     stages {
 
         stage('Git Checkout') {
@@ -19,5 +23,15 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh """
+                    mvn sonar:sonar \
+                    -Dsonar.login=$SONAR_TOKEN
+                    """
+                }
+            }
+        }
     }
-}
+}}
