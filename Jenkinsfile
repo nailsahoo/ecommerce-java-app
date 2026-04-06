@@ -1,14 +1,9 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven'
-    }
-
     environment {
         AWS_REGION = 'us-east-1'
-        ECR_REPO = '549969919865.dkr.ecr.us-east-1.amazonaws.com/ecommerce-app'
-        IMAGE_TAG = 'latest'
+        ECR_REPO = '549969919865.dkr.ecr.us-east-1.amazonaws.com/aksproapp'
     }
 
     stages {
@@ -25,17 +20,15 @@ pipeline {
             }
         }
 
-        stage('Sonar') {
+        stage('Docker Build') {
             steps {
-                withSonarQubeEnv('sonar-server') {
-                    sh 'mvn sonar:sonar'
-                }
+                sh 'docker build -t aksproapp .'
             }
         }
 
-        stage('Docker Build') {
+        stage('Tag Image') {
             steps {
-                sh 'docker build -t $ECR_REPO:$IMAGE_TAG .'
+                sh 'docker tag aksproapp:latest $ECR_REPO:latest'
             }
         }
 
@@ -50,7 +43,7 @@ pipeline {
 
         stage('Push to ECR') {
             steps {
-                sh 'docker push $ECR_REPO:$IMAGE_TAG'
+                sh 'docker push $ECR_REPO:latest'
             }
         }
     }
