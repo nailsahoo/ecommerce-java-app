@@ -10,7 +10,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/nailsahoo/ecommerce-java-app.git'
+                git branch: 'main', url: 'https://github.com/nailsahoo/ecommerce-java-app.git'
             }
         }
 
