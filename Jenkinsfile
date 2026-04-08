@@ -20,6 +20,11 @@ pipeline {
             }
         }
 
+        stage('Upload to Nexus') {
+            steps {
+                sh 'mvn deploy'
+            }
+        }
         stage('Docker Build') {
             steps {
                 sh 'docker build -t aksproapp .'
