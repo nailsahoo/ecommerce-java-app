@@ -1,36 +1,36 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         http://www.m​aven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ecommerce</groupId>
+    <artifactId>ecommerce-app</artifactId>
+    <version>1.0</version>
 
     <build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>3.2.0</version>
-            <configuration>
-                <archive>
-                    <manifest>
-                        <mainClass>com.ecommerce.App</mainClass>
-                    </manifest>
-                </archive>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
-         
-    <properties>
-        <sonar.projectKey>ecommerce-app</sonar.projectKey>
-        <sonar.host.url>http://35.173.129.243:9000/</sonar.host.url>
-    </properties>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.ecommerce.App</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-<distributionManagement>
-    <repository>
-        <id>nexus</id>
-        <url>http://35.173.129.243:8081/repository/maven-releases//</url>
-    </repository>
-</distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <url>http://35.173.129.243:8081/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
 
 </project>
