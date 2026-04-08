@@ -21,10 +21,24 @@ pipeline {
         }
 
         stage('Upload to Nexus') {
-            steps {
-                sh 'mvn deploy'
-            }
-        }
+    steps {
+        nexusArtifactUploader(
+            nexusVersion: 'nexus3',
+            protocol: 'http',
+            nexusUrl: '35.173.129.243:8081',
+            groupId: 'com.ecommerce',
+            version: '1.0',
+            repository: 'maven-releases',
+            credentialsId: 'nexus-creds',
+            artifacts: [
+                [artifactId: 'ecommerce-app',
+                 classifier: '',
+                 file: 'target/ecommerce-app-1.0.jar',
+                 type: 'jar']
+            ]
+        )
+    }
+}
         stage('Docker Build') {
             steps {
                 sh 'docker build -t aksproapp .'
