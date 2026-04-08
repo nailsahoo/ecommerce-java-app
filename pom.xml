@@ -8,10 +8,11 @@
     <groupId>com.ecommerce</groupId>
     <artifactId>ecommerce-app</artifactId>
     <version>1.0</version>
-
+    <packaging>jar</packaging>
+         
     <properties>
         <sonar.projectKey>ecommerce-app</sonar.projectKey>
-        <sonar.host.url>http://34.228.115.89:9000/</sonar.host.url>
+        <sonar.host.url>http://35.173.129.243:9000/</sonar.host.url>
     </properties>
 
 <distributionManagement>
