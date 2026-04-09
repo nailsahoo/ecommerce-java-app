@@ -1,13 +1,19 @@
 package com.ecommerce;
 
-public class App {
-    public static void main(String[] args) {
-        System.out.println("App started successfully!");
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.*;
 
-        while (true) {
-            try {
-                Thread.sleep(10000);
-            } catch (Exception e) {}
-        }
+@SpringBootApplication
+@RestController
+public class App {
+
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
+
+    @GetMapping("/")
+    public String home() {
+        return "Hello Anil! Your app is working 🚀";
     }
 }
