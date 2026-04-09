@@ -25,7 +25,7 @@ pipeline {
         nexusArtifactUploader(
             nexusVersion: 'nexus3',
             protocol: 'http',
-            nexusUrl: '35.173.129.243:8081',
+            nexusUrl: '54.90.207.176:8081',
             groupId: 'com.ecommerce',
             version: '1.0',
             repository: 'maven-releases',
